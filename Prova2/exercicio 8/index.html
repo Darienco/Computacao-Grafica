@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+		<script src="three.js"></script>
+		<script>
+			var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 100000 );
+            
+            
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+            
+            
+            
+            const pointLight = new THREE.PointLight( 0xff0000, 1, 100 );
+            pointLight.position.set( 10, 10, 10 );
+            scene.add( pointLight );
+
+            const sphereSize = 1;
+            const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
+            scene.add( pointLightHelper );
+            
+            
+            
+            var cubegeometry = new THREE.BoxGeometry( 1, 1, 1 );
+            var cubematerial = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+            var cube = new THREE.Mesh( cubegeometry, cubematerial);
+            cube.castShadow = true;
+            cube.receiveShadow = true;
+            scene.add( cube );
+
+            const conegeometry = new THREE.ConeGeometry( 5, 20, 32 );
+            const conematerial = new THREE.MeshBasicMaterial( {color: 0x000ff} );
+            const cone = new THREE.Mesh( conegeometry, conematerial );
+            cone.castShadow = true;
+            cone.receiveShadow =true;
+            scene.add( cone );
+
+
+            const cylindergeometry = new THREE.CylinderGeometry( 5, 5, 20, 32 );
+            const cylindermaterial = new THREE.MeshBasicMaterial( {color: 0xffffff} );
+            const cylinder = new THREE.Mesh( cylindergeometry, cylindermaterial );
+            cylinder.castShadow =true;
+            scene.add( cylinder );
+
+
+            camera.position.z = 5;
+
+            var animate = function () {
+                requestAnimationFrame( animate );
+                cone.position.y = 0;
+                cone.position.x = -20;
+                cone.position.z = -50;
+                cone.rotation.x += 0.01;
+                cone.rotation.y += 0.01;
+                
+                
+                cylinder.position.x = 20;
+                cylinder.position.z = -50;
+                cylinder.rotation.x += 0.01;
+                cylinder.rotation.x += 0.01;
+                
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+
+                
+                renderer.render( scene, camera );
+            };
+
+            animate();
+		</script>
+	</body>
+</html>
